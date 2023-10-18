@@ -22,9 +22,9 @@ const Content = ( {exercises1, exercises2, exercises3} ) => {
   const part3 = 'State of a component'
   return (
     <>
-      <p>{part1} {exercises1}</p>
-      <p>{part2} {exercises2}</p>
-      <p>{part3} {exercises3}</p>
+      <Part description={part1} exercises={exercises1}/>
+      <Part description={part2} exercises={exercises2}/>
+      <Part description={part3} exercises={exercises3}/>
     </>
   )
 }
@@ -35,6 +35,10 @@ const Total = ( {exercises1, exercises2, exercises3} ) => {
       <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
     </>
   )
+}
+
+const Part = ( {description, exercises} ) => {
+  return (<p>{description} {exercises}</p>)
 }
 
 export default App
