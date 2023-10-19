@@ -14,6 +14,7 @@ const App = () => {
         <Button text={'neutral'} value={neutral} setFunc={setNeutral}/>
         <Button text={'bad'} value={bad} setFunc={setBad}/>
       </div>
+      <Header text={'statistics'} />
       <Statistics good={good} neutral={neutral} bad={bad}/>
     </div>
   )
@@ -32,25 +33,31 @@ const StatisticsComponent = ( {text, value} ) => {
 }
 
 const Statistics = ( {good, neutral, bad} ) => {
+  const sum = good + neutral + bad
+  const noFeedbackGiven = () => {
+    if (sum === 0) return true
+    else return false
+  }
+
   const average = () => {
     const goodValue = good * 1
     const neutralValue = neutral * 0
     const badValue = bad * (-1)
     const valueSum = goodValue + neutralValue + badValue
-    const countSum = good + neutral + bad
-    if (countSum === 0) return 0
-    return valueSum / countSum
+    if (noFeedbackGiven()) return 0
+    return valueSum / sum
   }
 
   const positives = () => {
-    const countSum = good + neutral + bad
-    if (countSum === 0) return 0
-    return good / countSum
+    if (noFeedbackGiven()) return 0
+    return good / sum
   }
 
+  if (noFeedbackGiven()) {
+    return (<p>No feedback given</p>)
+  }
   return (
     <div>
-      <Header text={'statistics'} />
       <StatisticsComponent text={'good'} value={good}/>
       <StatisticsComponent text={'neutral'} value={neutral}/>
       <StatisticsComponent text={'bad'} value={bad}/>
