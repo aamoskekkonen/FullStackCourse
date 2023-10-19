@@ -28,7 +28,7 @@ const Button = ( {text, value, setFunc} ) => {
   return (<button onClick={() => setFunc(value + 1)}>{text}</button>)
 }
 
-const StatisticsComponent = ( {text, value} ) => {
+const StatisticLine = ( {text, value} ) => {
   return (<p>{text} {value}</p>)
 }
 
@@ -58,11 +58,11 @@ const Statistics = ( {good, neutral, bad} ) => {
   }
   return (
     <div>
-      <StatisticsComponent text={'good'} value={good}/>
-      <StatisticsComponent text={'neutral'} value={neutral}/>
-      <StatisticsComponent text={'bad'} value={bad}/>
-      <StatisticsComponent text={'average'} value={average()} />
-      <StatisticsComponent text={'positives'} value={positives()} />
+      <StatisticLine text={'good'} value={good}/>
+      <StatisticLine text={'neutral'} value={neutral}/>
+      <StatisticLine text={'bad'} value={bad}/>
+      <StatisticLine text={'average'} value={average()} />
+      <StatisticLine text={'positives'} value={positives()} />
     </div>
   )
 }
