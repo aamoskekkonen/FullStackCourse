@@ -30,13 +30,26 @@ const App = () => {
     setVotes(newVotes)
   }
 
+  const anecdoteWithMostVotes = () => {
+    let currentBestIndex = 0
+    for (let i = 0; i < votes.length; i++) {
+      if (votes[i] > votes[currentBestIndex]) {
+        currentBestIndex = i
+      }
+    }
+    return anecdotes[currentBestIndex]
+  }
+
   return (
     <div>
+      <Header text={'Anecdote of the day'}/>
       <Anecdote text={anecdotes[selected]}/>
       <div>
         <button onClick={voteForAnecdote}>vote</button>
         <button onClick={changeAnecdote}>next anecdote</button>               
       </div>
+      <Header text={'Anecdote with most votes'}/>
+      <Anecdote text={anecdoteWithMostVotes()}/>
     </div>  
   )
 }
@@ -45,4 +58,8 @@ const Anecdote = ( {text} ) => {
   return (<p>{text}</p>)
 }
 
+const Header = ( {text} ) => {
+  return (<h1>{text}</h1>)
+}
+ 
 export default App
