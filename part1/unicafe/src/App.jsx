@@ -29,7 +29,7 @@ const Button = ( {text, value, setFunc} ) => {
 }
 
 const StatisticLine = ( {text, value} ) => {
-  return (<p>{text} {value}</p>)
+  return (<tr><td>{text}</td><td>{value}</td></tr>)
 }
 
 const Statistics = ( {good, neutral, bad} ) => {
@@ -50,7 +50,7 @@ const Statistics = ( {good, neutral, bad} ) => {
 
   const positives = () => {
     if (noFeedbackGiven()) return 0
-    return good / sum
+    return good / sum * 100
   }
 
   if (noFeedbackGiven()) {
@@ -58,11 +58,15 @@ const Statistics = ( {good, neutral, bad} ) => {
   }
   return (
     <div>
-      <StatisticLine text={'good'} value={good}/>
-      <StatisticLine text={'neutral'} value={neutral}/>
-      <StatisticLine text={'bad'} value={bad}/>
-      <StatisticLine text={'average'} value={average()} />
-      <StatisticLine text={'positives'} value={positives()} />
+      <table>
+        <tbody>
+          <StatisticLine text={'good'} value={good}/>
+          <StatisticLine text={'neutral'} value={neutral}/>
+          <StatisticLine text={'bad'} value={bad}/>
+          <StatisticLine text={'average'} value={average()} />
+          <StatisticLine text={'positives'} value={positives() + " %"} />
+        </tbody>
+      </table>
     </div>
   )
 }
