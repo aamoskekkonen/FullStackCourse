@@ -54,11 +54,11 @@ const App = () => {
   )
 }
 
-const Anecdote = ( {text} ) => {
+const Anecdote = ({ text }) => {
   return (<p>{text}</p>)
 }
 
-const Header = ( {text} ) => {
+const Header = ({ text }) => {
   return (<h1>{text}</h1>)
 }
  

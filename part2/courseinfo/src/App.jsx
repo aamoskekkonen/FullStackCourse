@@ -12,7 +12,9 @@ const Content = ({ parts }) =>
     {parts.map(part => <Part key={part.id} part={part}/>)}
   </>
 
-const Course = ( {course} ) =>
+/// const Sum = ({  })
+
+const Course = ({ course }) =>
   <>
     <Header course={course.name} />
     <Content parts={course.parts} />
@@ -37,6 +39,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }

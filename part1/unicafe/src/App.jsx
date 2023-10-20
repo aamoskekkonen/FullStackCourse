@@ -20,19 +20,19 @@ const App = () => {
   )
 }
 
-const Header = ( {text} ) => {
+const Header = ({ text }) => {
   return (<h1>{text}</h1>)
 }
 
-const Button = ( {text, value, setFunc} ) => {
+const Button = ({ text, value, setFunc }) => {
   return (<button onClick={() => setFunc(value + 1)}>{text}</button>)
 }
 
-const StatisticLine = ( {text, value} ) => {
+const StatisticLine = ({ text, value }) => {
   return (<tr><td>{text}</td><td>{value}</td></tr>)
 }
 
-const Statistics = ( {good, neutral, bad} ) => {
+const Statistics = ({ good, neutral, bad }) => {
   const sum = good + neutral + bad
   const noFeedbackGiven = () => {
     if (sum === 0) return true
