@@ -3,6 +3,7 @@ import axios from 'axios'
 import SearchFilter from './components/SearchFilter'
 import AddingForm from './components/AddingForm'
 import Phonebook from './components/Phonebook'
+import personService from './services/persons'
 
 
 const App = () => {
@@ -12,8 +13,8 @@ const App = () => {
   const [search, setSearch] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
         setPersons(response.data)
       })
@@ -26,11 +27,40 @@ const App = () => {
   const addNewPerson = (event) => {
     event.preventDefault()
     if (alreadyAdded(newName)) {
-      alert(`${newName} is already added to phonebook`)
+      const existingPerson = persons.find(person => person.name === newName)
+      if (window.confirm(`${existingPerson.name} is already added to phonebook, replace the old number with a new one?`)) {
+        const updatedPerson = { ...existingPerson, number: newNumber}
+        personService
+        .update(existingPerson.id, updatedPerson)
+        .then(response => {
+          setPersons(persons.map(person => person.id !== existingPerson.id ? person : updatedPerson))
+        })
+        
+      }
     } else {
-      setPersons(persons.concat({name: newName, number: newNumber, id: persons.length + 1}))
-      setNewName('')
-      setNewNumber('')
+      const newPerson = {
+        name: newName,
+        number: newNumber,
+        id: persons.length + 1
+      }
+      personService
+      .create(newPerson)
+      .then(response => {
+        setPersons(persons.concat(newPerson))
+        setNewName('')
+        setNewNumber('')
+      })
+    }
+  }
+
+  const removePerson = (id) => {
+    const deletedPerson = persons.find(person => person.id == id)
+    if (window.confirm(`Delete ${deletedPerson.name} ?`)) {
+      personService
+      .remove(id)
+      .then(response => {
+        setPersons(persons.filter(person => person.id != id))
+      })
     }
   }
 
@@ -57,7 +87,7 @@ const App = () => {
       <Header text={'Phonebook'}/>
       <SearchFilter search={search} setSearch={setSearch} />
       <AddingForm addNewPerson={addNewPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
-      <Phonebook personsToShow={personsToShow()} />
+      <Phonebook personsToShow={personsToShow()} deletePerson={removePerson}/>
     </div>
   )
 }
