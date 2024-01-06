@@ -7,7 +7,7 @@ const SearchFilter = ({ search, setSearch }) => {
     return (
         <>
             <form onSubmit={(event) => event.preventDefault()}>
-            <div>name: <input value={search} onChange={handleSearchFieldChange}/></div>
+            <div>filter shown with: <input value={search} onChange={handleSearchFieldChange}/></div>
             </form>
         </>
     )

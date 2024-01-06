@@ -3,6 +3,7 @@ import axios from 'axios'
 import SearchFilter from './components/SearchFilter'
 import AddingForm from './components/AddingForm'
 import Phonebook from './components/Phonebook'
+import Notification from './components/Notification'
 import personService from './services/persons'
 
 
@@ -11,6 +12,7 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personService
@@ -24,6 +26,13 @@ const App = () => {
     return persons.some((person) => person.name === name)
   }
 
+  const displayNotification = (text) => {
+    setErrorMessage(text)
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
+
   const addNewPerson = (event) => {
     event.preventDefault()
     if (alreadyAdded(newName)) {
@@ -34,8 +43,8 @@ const App = () => {
         .update(existingPerson.id, updatedPerson)
         .then(response => {
           setPersons(persons.map(person => person.id !== existingPerson.id ? person : updatedPerson))
+          displayNotification(`Updated the number of ${existingPerson.name}`)
         })
-        
       }
     } else {
       const newPerson = {
@@ -49,6 +58,7 @@ const App = () => {
         setPersons(persons.concat(newPerson))
         setNewName('')
         setNewNumber('')
+        displayNotification(`Added ${newPerson.name}`)
       })
     }
   }
@@ -60,6 +70,11 @@ const App = () => {
       .remove(id)
       .then(response => {
         setPersons(persons.filter(person => person.id != id))
+        displayNotification(`Deleted ${deletedPerson.name}`)
+      })
+      .catch(error => {
+        displayNotification(`Information of ${deletedPerson.name} has already been removed from server`)
+        setPersons(persons.filter(person => person.id !== deletedPerson.id))
       })
     }
   }
@@ -85,6 +100,7 @@ const App = () => {
   return (
     <div>
       <Header text={'Phonebook'}/>
+      <Notification message={errorMessage}/>
       <SearchFilter search={search} setSearch={setSearch} />
       <AddingForm addNewPerson={addNewPerson} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
       <Phonebook personsToShow={personsToShow()} deletePerson={removePerson}/>
