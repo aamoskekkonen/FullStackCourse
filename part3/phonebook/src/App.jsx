@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import SearchFilter from './components/SearchFilter'
 import AddingForm from './components/AddingForm'
 import Phonebook from './components/Phonebook'
